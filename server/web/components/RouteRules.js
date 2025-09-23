@@ -102,10 +102,10 @@ const RouteRules = {
             })
             .then(response => response.json())
             .then(data => {
-                if (data.status === 1) {
+                if (data.Status === 1) {
                     this.rules = routeRules;
-                    fetchRouteRules();
-                    alert('保存成功');
+                    this.fetchRouteRules();
+                    // alert('保存成功');
                 } else {
                     alert('操作失败');
                 }

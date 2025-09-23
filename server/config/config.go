@@ -56,7 +56,7 @@ func ReadUsers() error {
 }
 
 func WriteConfig() error {
-	data, err := json.MarshalIndent(global.Cfg, "", "  ")
+	data, err := json.MarshalIndent(global.Cfg, "", "    ")
 	if err != nil {
 		return err
 	}
@@ -70,7 +70,7 @@ func WriteConfig() error {
 }
 
 func WriteRules() error {
-	data, err := json.MarshalIndent(global.Rule, "", "  ")
+	data, err := json.MarshalIndent(global.Rule, "", "    ")
 	if err != nil {
 		return err
 	}
@@ -84,7 +84,7 @@ func WriteRules() error {
 }
 
 func WriteUsers() error {
-	data, err := json.MarshalIndent(global.Users, "", "  ")
+	data, err := json.MarshalIndent(global.Users, "", "    ")
 	if err != nil {
 		return err
 	}

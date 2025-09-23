@@ -15,4 +15,12 @@ func RegsiterHandles(server *http.ServeMux) {
 
 	// rules handler
 	server.Handle("/api/rules", LoggerHandler(rulesHandler))
+
+	// modify handler
+	server.Handle("/api/modify/route-protect", LoggerHandler(routeProtectHandler))
+	server.Handle("/api/modify/wireless-protect", LoggerHandler(wirelessProtectHandler))
+	server.Handle("/api/modify/ethernet-protect", LoggerHandler(ethernetProtectHandler))
+	server.Handle("/api/modify/route-rules", LoggerHandler(routeRulesHandler))
+	server.Handle("/api/modify/wireless-rules", LoggerHandler(wirelessRulesHandler))
+	server.Handle("/api/modify/time-rules", LoggerHandler(timeRulesHandler))
 }

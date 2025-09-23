@@ -44,7 +44,7 @@ const EthernetRules = {
             })
             .then(response => response.json())
             .then(data => {
-                if (data.status === 1) {
+                if (data.Status === 1) {
                     fetch('/api/rules')
                     .then(response => response.json())
                     .then(data => {

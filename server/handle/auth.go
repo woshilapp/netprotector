@@ -86,5 +86,6 @@ func logoutHandler(w http.ResponseWriter, r *http.Request) {
 
 		global.TokenLock.Lock()
 		global.Tokens = slices.DeleteFunc(global.Tokens, func(s string) bool { return s == token.Token })
+		global.TokenLock.Unlock()
 	}
 }

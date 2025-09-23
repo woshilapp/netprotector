@@ -95,10 +95,10 @@ const TimeRules = {
             })
             .then(response => response.json())
             .then(data => {
-                if (data.status === 1) {
+                if (data.Status === 1) {
                     this.rules = timeRules;
-                    fetchTimeRules();
-                    alert('保存成功');
+                    this.fetchTimeRules();
+                    // alert('保存成功');
                 } else {
                     alert('操作失败');
                 }

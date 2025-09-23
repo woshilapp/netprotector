@@ -14,7 +14,7 @@ const WirelessRules = {
                 <div class="form-group">
                     <label class="control-label">无线网络保护开关</label>
                     <label class="toggle-switch">
-                        <input type="checkbox" v-model="wirelessProtect" @change="saveSettings">
+                        <input type="checkbox" v-model="wirelessProtect">
                         <span class="slider"></span>
                     </label>
                     <span style="margin-left: 10px;">{{ wirelessProtect ? '已启用' : '已禁用' }}</span>
@@ -84,7 +84,7 @@ const WirelessRules = {
             })
             .then(response => response.json())
             .then(data => {
-                if (data.status === 1) {
+                if (data.Status === 1) {
                     alert('设置已保存');
                 } else {
                     alert('操作失败');
@@ -125,9 +125,10 @@ const WirelessRules = {
             })
             .then(response => response.json())
             .then(data => {
-                if (data.status === 1) {
+                if (data.Status === 1) {
                     this.rules = wirelessRules;
-                    alert('保存成功');
+                    this.fetchWirelessRules();
+                    // alert('保存成功');
                 } else {
                     alert('操作失败');
                 }

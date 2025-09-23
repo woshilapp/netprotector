@@ -8,12 +8,11 @@ import (
 	"time"
 
 	"github.com/woshilapp/netprotector/server/config"
+	"github.com/woshilapp/netprotector/server/global"
 	"github.com/woshilapp/netprotector/server/handle"
 )
 
 func main() {
-	port := strconv.Itoa(8080)
-
 	banner := `  _   _          _     ____                          _                   _                  
  | \ | |   ___  | |_  |  _ \   _ __    ___     ___  | |_    ___    ___  | |_    ___    _ __ 
  |  \| |  / _ \ | __| | |_) | | '__|  / _ \   / __| | __|  / _ \  / __| | __|  / _ \  | '__|
@@ -23,7 +22,7 @@ func main() {
 
 	log.Println("Hello World NetProtector Server!")
 	fmt.Println(banner)
-	fmt.Println("Auctor: woshilapp (github.com/woshilapp/netprotector)")
+	fmt.Println("Auctor: woshilapp (github.com/woshilapp/netprotector)\n")
 
 	server := http.NewServeMux()
 
@@ -54,6 +53,10 @@ func main() {
 		return
 	}
 
+	port := strconv.Itoa(global.Cfg.Port)
+
+	log.Println("Data loaded")
+
 	go func() { // Serve Thread
 		err = http.ListenAndServe(":"+port, server)
 		if err != nil {
@@ -67,6 +70,7 @@ func main() {
 	}
 
 	log.Println("Server started at :" + port)
+	log.Println("We are good to go!")
 	for {
 		time.Sleep(10 * time.Second)
 	}

@@ -14,6 +14,37 @@ type ApiUser struct {
 	Password string
 }
 
+type RouteProtect struct {
+	Token         string
+	Route_Protect bool
+}
+
+type WirelessProtect struct {
+	Token            string
+	Wireless_Protect bool
+}
+
+type EthernetProtect struct {
+	Token            string
+	Ethernet_Protect bool
+}
+
+type TimeRules struct {
+	Token      string
+	Time_Rules []TimeRule
+}
+
+type WirelessRules struct {
+	Token          string
+	Wireless_Rules []WirelessRule
+}
+
+type RouteRules struct {
+	Token       string
+	Route_Rules []RouteRule
+}
+
+// for token
 func GenerateRandomString(length int) (string, error) {
 	const charset = "abcdefghijklmnopqrstuvwxyz0123456789"
 

@@ -28,7 +28,7 @@ const Dashboard = {
             
             <div class="controls">
                 <div class="control-group">
-                    <label class="control-label">路由保护开关</label>
+                    <label class="control-label">总保护开关(请勿关闭)</label>
                     <label class="toggle-switch">
                         <input type="checkbox" v-model="routeProtect" @change="saveRouteProtect">
                         <span class="slider"></span>
@@ -127,10 +127,10 @@ const Dashboard = {
             })
             .then(response => response.json())
             .then(data => {
-                if (data.status === 0) {
+                if (data.Status === 0) {
                     alert('操作失败');
                 } else {
-                    refreshData();
+                    this.refreshData();
                 }
             })
             .catch(error => {
@@ -151,10 +151,10 @@ const Dashboard = {
             })
             .then(response => response.json())
             .then(data => {
-                if (data.status === 0) {
+                if (data.Status === 0) {
                     alert('操作失败');
                 } else {
-                    refreshData();
+                    this.refreshData();
                 }
             })
             .catch(error => {
@@ -175,10 +175,10 @@ const Dashboard = {
             })
             .then(response => response.json())
             .then(data => {
-                if (data.status === 0) {
+                if (data.Status === 0) {
                     alert('操作失败');
                 } else {
-                    refreshData();
+                    this.refreshData();
                 }
             })
             .catch(error => {

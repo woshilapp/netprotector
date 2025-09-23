@@ -71,7 +71,7 @@ back:
                 }
 
         /api/modify:
-        - route_protect, ethernet_protect, wireless_protect:
+        - route-protect, ethernet-protect, wireless-protect:
             method: post
             params:
                 token: string
@@ -80,7 +80,7 @@ back:
             return:
                 status: int // 0: fail, 1: success
 
-        - time_rules:
+        - time-rules:
             method: post
             params:
                 token: string
@@ -92,7 +92,7 @@ back:
             return:
                 status: int
         
-        - route_rules:
+        - route-rules:
             method: post
             params:
                 token: string
@@ -105,7 +105,7 @@ back:
             return:
                 status: int
         
-        - wireless_rules:
+        - wireless-rules:
             method: post
             params:
                 token: string
