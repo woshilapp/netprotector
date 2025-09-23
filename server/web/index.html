@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>网络保护器管理面板</title>
+    <script src="asserts/js/vue.global.js"></script>
+    <script src="asserts/js/vue-router.global.js"></script>
+    <link rel="stylesheet" href="asserts/css/index.css">
+    <!-- 引入各个组件 -->
+    <script src="components/Login.js"></script>
+    <script src="components/Dashboard.js"></script>
+    <script src="components/TimeRules.js"></script>
+    <script src="components/RouteRules.js"></script>
+    <script src="components/EthernetRules.js"></script>
+    <script src="components/WirelessRules.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div class="sidebar" v-if="$route.name !== 'login'">
+            <div class="logo">
+                <a href="#" @click="this.$router.push('/dashboard');">NetProtector Web Panel</a>
+            </div>
+            <ul class="nav-links">
+                <li><router-link to="/dashboard" class="nav-link">仪表盘</router-link></li>
+                <li><router-link to="/time_rules" class="nav-link">时间规则管理</router-link></li>
+                <li><router-link to="/route_rules" class="nav-link">路由规则管理</router-link></li>
+                <li><router-link to="/ethernet_rules" class="nav-link">有线网络管理</router-link></li>
+                <li><router-link to="/wireless_rules" class="nav-link">无线网络管理</router-link></li>
+            </ul>
+        </div>
+        
+        <div class="main-content">
+            <router-view></router-view>
+        </div>
+    </div>
+
+    <script>
+        const { createApp } = Vue
+        const { createRouter, createWebHashHistory } = VueRouter
+        
+        // 定义路由
+        const routes = [
+            { path: '/', redirect: '/login' },
+            { path: '/login', name: 'login', component: Login },
+            { path: '/dashboard', name: 'dashboard', component: Dashboard },
+            { path: '/time_rules', name: 'time_rules', component: TimeRules },
+            { path: '/route_rules', name: 'route_rules', component: RouteRules },
+            { path: '/ethernet_rules', name: 'ethernet_rules', component: EthernetRules },
+            { path: '/wireless_rules', name: 'wireless_rules', component: WirelessRules }
+        ]
+        
+        // 创建路由实例
+        const router = createRouter({
+            history: createWebHashHistory(),
+            routes
+        })
+        
+        // 创建应用实例
+        const app = createApp({
+            data() {
+                return {
+                    username: '' // 添加全局用户名属性
+                }
+            }
+        })
+        
+        app.use(router)
+        app.mount('#app')
+    </script>
+</body>
+</html>

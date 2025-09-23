@@ -1,0 +1,117 @@
+netprotector server docs
+
+front:
+    by ai, 不关我事
+
+back:
+    handle /api
+    all return json format
+    and front to back also json
+
+    apis:
+        /api/status:
+            method: get
+            params:
+                none
+            return:
+                client: int
+                route-protect: bool
+                wireless-protect: bool
+                ethernet-protect: bool
+
+
+        /api/auth:
+        - login:
+            method: post
+            params:
+                username: string
+                password: string
+            return:
+                status: int
+                token: string
+
+                if success:
+                status: 1
+                token: string
+                    eg: asd9uh12jgs73hf (16 bits)
+                else:
+                status: 0
+                token: empty string
+                
+        - logout:
+            method: post
+            params:
+                token: string
+            return:
+                none
+        
+        /api/rules:
+            method: get
+            params:
+                none
+            return:
+                //route-protect default delete 0.0.0.0 route
+                route-protect: bool
+                time-rules: array[] {
+                    "time-start": int,
+                    "time-end": int,
+                    "description': string
+                }
+                route-rules: array[] { //add route rules
+                    "network": string,
+                    "mask": string,
+                    "endpoint": string,
+                    "description": string
+                }
+                ethernet-protect: bool
+                wireless-protect: bool
+                wireless-rules: array[] { //if ssid equals, delete wireless gateway route
+                    "ssid": string,
+                    "description": string
+                }
+
+        /api/modify:
+        - route-protect, ethernet-protect, wireless-protect:
+            method: post
+            params:
+                token: string
+                route-protect: bool
+            return:
+                status: int // 0: fail, 1: success
+
+        - time-rules:
+            method: post
+            params:
+                token: string
+                time-rules: array[] {
+                    "time-start": int,
+                    "time-end": int,
+                    "description": string
+                }
+            return:
+                status: int
+        
+        - route-rules:
+            method: post
+            params:
+                token: string
+                route-rules: array[] { 
+                    "network": string,
+                    "mask": string,
+                    "endpoint": string,
+                    "description": string
+                }
+            return:
+                status: int
+        
+        - wireless-rules:
+            method: post
+            params:
+                token: string
+                wireless-rules: array[] {
+                    "ssid": string,
+                    "description": string
+                }
+            return:
+                status: int
+            
