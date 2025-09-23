@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"slices"
+	"time"
 
 	"github.com/woshilapp/netprotector/server/global"
 )
@@ -30,6 +31,8 @@ func ValidToken(token string) bool {
 
 func helloHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hello World NetProtector Server!")
+
+	global.Clients[r.RemoteAddr] = time.Now()
 }
 
 func statusHandler(w http.ResponseWriter, r *http.Request) {

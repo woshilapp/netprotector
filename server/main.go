@@ -22,7 +22,7 @@ func main() {
 
 	log.Println("Hello World NetProtector Server!")
 	fmt.Println(banner)
-	fmt.Println("Auctor: woshilapp (github.com/woshilapp/netprotector)\n")
+	fmt.Println("Auctor: woshilapp (github.com/woshilapp/netprotector)", '\n')
 
 	server := http.NewServeMux()
 
@@ -68,6 +68,8 @@ func main() {
 	if err != nil {
 		return
 	}
+
+	go global.CleanClients() // client alive check
 
 	log.Println("Server started at :" + port)
 	log.Println("We are good to go!")

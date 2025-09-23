@@ -4,9 +4,14 @@
     "Wireless_Protect": true,
     "Time_Rules": [
         {
-            "Time_start": "08:00",
-            "Time_end": "18:00",
+            "Time_Start": "08:00",
+            "Time_End": "18:00",
             "Description": "Office hours"
+        },
+        {
+            "Time_Start": "01:22",
+            "Time_End": "11:22",
+            "Description": "1"
         }
     ],
     "Route_Rules": [
@@ -15,6 +20,12 @@
             "Mask": "255.255.255.0",
             "Endpoint": "192.168.1.1",
             "Description": "Office network"
+        },
+        {
+            "Network": "10.0.1.0",
+            "Mask": "255.255.0.0",
+            "Endpoint": "192.168.2.1",
+            "Description": "core"
         }
     ],
     "Wireless_Rules": [

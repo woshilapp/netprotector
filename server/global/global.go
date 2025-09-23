@@ -1,6 +1,9 @@
 package global
 
-import "sync"
+import (
+	"sync"
+	"time"
+)
 
 type TimeRule struct {
 	Time_Start  string
@@ -45,7 +48,18 @@ var (
 )
 
 var (
-	Clients   []string   = []string{} // contains client ip:port
-	Tokens    []string   = []string{}
-	TokenLock sync.Mutex = sync.Mutex{}
+	Clients   map[string]time.Time = map[string]time.Time{}
+	Tokens    []string             = []string{}
+	TokenLock sync.Mutex           = sync.Mutex{}
 )
+
+func CleanClients() {
+	for {
+		time.Sleep(10 * time.Second)
+		for k, v := range Clients {
+			if time.Since(v) > time.Second*20 {
+				delete(Clients, k)
+			}
+		}
+	}
+}
