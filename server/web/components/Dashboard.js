@@ -4,7 +4,7 @@ const Dashboard = {
             <div class="header">
                 <div class="logo">仪表盘</div>
                 <div class="user-info">
-                    <span>{{ this.$root.username }}</span>
+                    <span>{{ username }}</span>
                     <button class="btn" @click="logout">退出</button>
                 </div>
             </div>
@@ -63,6 +63,7 @@ const Dashboard = {
     `,
     data() {
         return {
+            username: localStorage.getItem('username'),
             protectionStatus: true,
             routeProtect: true,
             ethernetProtect: true,
@@ -72,21 +73,46 @@ const Dashboard = {
     },
     methods: {
         logout() {
+            fetch('/api/auth/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    Token: localStorage.getItem('token')
+                })
+            }).catch(error => {
+                console.error('Error logging out:', error);
+            });
+            localStorage.setItem('username', '');
+            localStorage.setItem('token', '');
             this.$router.push('/login');
         },
         refreshData() {
             // 从/api/status获取数据
-            fetch('/api/status')
-                .then(response => response.json())
-                .then(data => {
-                    this.onlineDevices = data.client;
-                    this.routeProtect = data['route-protect'];
-                    this.ethernetProtect = data['ethernet-protect'];
-                    this.wirelessProtect = data['wireless-protect'];
+            fetch('/api/status', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    Token: localStorage.getItem('token')
                 })
-                .catch(error => {
-                    console.error('Error fetching status:', error);
-                });
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.Status !== 1) {
+                    this.logout();
+                    return;
+                }
+                this.onlineDevices = data.Client;
+                this.routeProtect = data['Route_Protect'];
+                this.ethernetProtect = data['Ethernet_Protect'];
+                this.wirelessProtect = data['Wireless_Protect'];
+            })
+            .catch(error => {
+                console.error('Error fetching status:', error);
+            });
         },
         saveRouteProtect() {
             fetch('/api/modify/route-protect', {
@@ -95,8 +121,8 @@ const Dashboard = {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    token: localStorage.getItem('token'),
-                    'route-protect': this.routeProtect
+                    Token: localStorage.getItem('token'),
+                    'Route_Protect': this.routeProtect
                 })
             })
             .then(response => response.json())
@@ -119,8 +145,8 @@ const Dashboard = {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    token: localStorage.getItem('token'),
-                    'ethernet-protect': this.ethernetProtect
+                    Token: localStorage.getItem('token'),
+                    'Ethernet_Protect': this.ethernetProtect
                 })
             })
             .then(response => response.json())
@@ -143,8 +169,8 @@ const Dashboard = {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    token: localStorage.getItem('token'),
-                    'wireless-protect': this.wirelessProtect
+                    Token: localStorage.getItem('token'),
+                    'Wireless_Protect': this.wirelessProtect
                 })
             })
             .then(response => response.json())

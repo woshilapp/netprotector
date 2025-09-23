@@ -4,7 +4,7 @@ const TimeRules = {
             <div class="header">
                 <div class="logo">时间规则管理</div>
                 <div class="user-info">
-                    <span>管理员</span>
+                    <span>{{ username }}</span>
                     <button class="btn" @click="logout">退出</button>
                 </div>
             </div>
@@ -53,6 +53,7 @@ const TimeRules = {
     `,
     data() {
         return {
+            username: localStorage.getItem('username'),
             newRule: {
                 name: '',
                 startTime: '',
@@ -84,11 +85,11 @@ const TimeRules = {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    token: localStorage.getItem('token'),
-                    'time-rules': timeRules.map(rule => ({
-                        'time-start': rule.startTime,
-                        'time-end': rule.endTime,
-                        'description': rule.name
+                    Token: localStorage.getItem('token'),
+                    'Time_Rules': timeRules.map(rule => ({
+                        'Time_Start': rule.startTime,
+                        'Time_End': rule.endTime,
+                        'Description': rule.name
                     }))
                 })
             })
@@ -108,17 +109,30 @@ const TimeRules = {
             });
         },
         logout() {
+            fetch('/api/auth/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    Token: localStorage.getItem('token')
+                })
+            }).catch(error => {
+                console.error('Error logging out:', error);
+            });
+            localStorage.setItem('username', '');
+            localStorage.setItem('token', '');
             this.$router.push('/login');
         },
         fetchTimeRules() {
             fetch('/api/rules')
                 .then(response => response.json())
                 .then(data => {
-                    if (data['time-rules']) {
-                        this.rules = data['time-rules'].map(rule => ({
-                            name: rule.description,
-                            startTime: rule['time-start'],
-                            endTime: rule['time-end']
+                    if (data['Time_Rules']) {
+                        this.rules = data['Time_Rules'].map(rule => ({
+                            name: rule.Description,
+                            startTime: rule['Time_Start'],
+                            endTime: rule['Time_End']
                         }));
                     }
                 })

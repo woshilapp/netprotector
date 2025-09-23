@@ -40,7 +40,7 @@
         
         // 定义路由
         const routes = [
-            { path: '/', redirect: '/login' },
+            { path: '/', redirect:  localStorage.getItem('token') === '' ? '/login' : '/dashboard' },
             { path: '/login', name: 'login', component: Login },
             { path: '/dashboard', name: 'dashboard', component: Dashboard },
             { path: '/time_rules', name: 'time_rules', component: TimeRules },
@@ -56,13 +56,7 @@
         })
         
         // 创建应用实例
-        const app = createApp({
-            data() {
-                return {
-                    username: '' // 添加全局用户名属性
-                }
-            }
-        })
+        const app = createApp({})
         
         app.use(router)
         app.mount('#app')

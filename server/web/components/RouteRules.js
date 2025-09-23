@@ -4,7 +4,7 @@ const RouteRules = {
             <div class="header">
                 <div class="logo">路由规则管理</div>
                 <div class="user-info">
-                    <span>管理员</span>
+                    <span>{{ username }}</span>
                     <button class="btn" @click="logout">退出</button>
                 </div>
             </div>
@@ -59,6 +59,7 @@ const RouteRules = {
     `,
     data() {
         return {
+            username: localStorage.getItem('username'),
             newRule: {
                 network: '',
                 mask: '',
@@ -90,12 +91,12 @@ const RouteRules = {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    token: localStorage.getItem('token'),
-                    'route-rules': routeRules.map(rule => ({
-                        'network': rule.network,
-                        'mask': rule.mask,
-                        'endpoint': rule.endpoint,
-                        'description': rule.description
+                    Token: localStorage.getItem('token'),
+                    'Route_Rules': routeRules.map(rule => ({
+                        'Network': rule.network,
+                        'Mask': rule.mask,
+                        'Endpoint': rule.endpoint,
+                        'Description': rule.description
                     }))
                 })
             })
@@ -115,18 +116,31 @@ const RouteRules = {
             });
         },
         logout() {
+            fetch('/api/auth/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    Token: localStorage.getItem('token')
+                })
+            }).catch(error => {
+                console.error('Error logging out:', error);
+            });
+            localStorage.setItem('username', '');
+            localStorage.setItem('token', '');
             this.$router.push('/login');
         },
         fetchRouteRules() {
             fetch('/api/rules')
                 .then(response => response.json())
                 .then(data => {
-                    if (data['route-rules']) {
-                        this.rules = data['route-rules'].map(rule => ({
-                            network: rule.network,
-                            mask: rule.mask,
-                            endpoint: rule.endpoint,
-                            description: rule.description
+                    if (data['Route_Rules']) {
+                        this.rules = data['Route_Rules'].map(rule => ({
+                            network: rule.Network,
+                            mask: rule.Mask,
+                            endpoint: rule.Endpoint,
+                            description: rule.Description
                         }));
                     }
                 })

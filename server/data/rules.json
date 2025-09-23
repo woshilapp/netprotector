@@ -1,1 +1,26 @@
-{}
+{
+    "Route_Protect": true,
+    "Ethernet_Protect": true,
+    "Wireless_Protect": true,
+    "Time_Rules": [
+        {
+            "Time_start": "08:00",
+            "Time_end": "18:00",
+            "Description": "Office hours"
+        }
+    ],
+    "Route_Rules": [
+        {
+            "Network": "192.168.1.0",
+            "Mask": "255.255.255.0",
+            "Endpoint": "192.168.1.1",
+            "Description": "Office network"
+        }
+    ],
+    "Wireless_Rules": [
+        {
+            "SSID": "Office",
+            "Description": "Office network"
+        }
+    ]
+}

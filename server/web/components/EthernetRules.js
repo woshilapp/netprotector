@@ -4,7 +4,7 @@ const EthernetRules = {
             <div class="header">
                 <div class="logo">有线网络管理</div>
                 <div class="user-info">
-                    <span>管理员</span>
+                    <span>{{ username }}</span>
                     <button class="btn" @click="logout">退出</button>
                 </div>
             </div>
@@ -25,6 +25,7 @@ const EthernetRules = {
     `,
     data() {
         return {
+            username: localStorage.getItem('username'),
             ethernetProtect: true
         }
     },
@@ -37,8 +38,8 @@ const EthernetRules = {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    token: localStorage.getItem('token'),
-                    'ethernet-protect': this.ethernetProtect
+                    Token: localStorage.getItem('token'),
+                    'Ethernet_Protect': this.ethernetProtect
                 })
             })
             .then(response => response.json())
@@ -47,7 +48,7 @@ const EthernetRules = {
                     fetch('/api/rules')
                     .then(response => response.json())
                     .then(data => {
-                        this.ethernetProtect = data['ethernet-protect'];
+                        this.ethernetProtect = data['Ethernet_Protect'];
                     })
                     .catch(error => {
                         console.error('Error fetching rules:', error);
@@ -63,6 +64,19 @@ const EthernetRules = {
             });
         },
         logout() {
+            fetch('/api/auth/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    Token: localStorage.getItem('token')
+                })
+            }).catch(error => {
+                console.error('Error logging out:', error);
+            });
+            localStorage.setItem('username', '');
+            localStorage.setItem('token', '');
             this.$router.push('/login');
         }
     },
@@ -71,7 +85,7 @@ const EthernetRules = {
         fetch('/api/rules')
             .then(response => response.json())
             .then(data => {
-                this.ethernetProtect = data['ethernet-protect'];
+                this.ethernetProtect = data['Ethernet_Protect'];
             })
             .catch(error => {
                 console.error('Error fetching rules:', error);

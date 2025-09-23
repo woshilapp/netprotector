@@ -15,9 +15,9 @@ back:
                 none
             return:
                 client: int
-                route-protect: bool
-                wireless-protect: bool
-                ethernet-protect: bool
+                route_protect: bool
+                wireless_protect: bool
+                ethernet_protect: bool
 
 
         /api/auth:
@@ -25,7 +25,7 @@ back:
             method: post
             params:
                 username: string
-                password: string
+                passwordhash: string
             return:
                 status: int
                 token: string
@@ -50,52 +50,53 @@ back:
             params:
                 none
             return:
-                //route-protect default delete 0.0.0.0 route
-                route-protect: bool
-                time-rules: array[] {
-                    "time-start": int,
-                    "time-end": int,
+                //route_protect default delete 0.0.0.0 route
+                route_protect: bool
+                time_rules: array[] {
+                    "time_start": int,
+                    "time_end": int,
                     "description': string
                 }
-                route-rules: array[] { //add route rules
+                route_rules: array[] { //add route rules
                     "network": string,
                     "mask": string,
                     "endpoint": string,
                     "description": string
                 }
-                ethernet-protect: bool
-                wireless-protect: bool
-                wireless-rules: array[] { //if ssid equals, delete wireless gateway route
+                ethernet_protect: bool
+                wireless_protect: bool
+                wireless_rules: array[] { //if ssid equals, delete wireless gateway route
                     "ssid": string,
                     "description": string
                 }
 
         /api/modify:
-        - route-protect, ethernet-protect, wireless-protect:
+        - route_protect, ethernet_protect, wireless_protect:
             method: post
             params:
                 token: string
-                route-protect: bool
+                route_protect: bool
+                ...
             return:
                 status: int // 0: fail, 1: success
 
-        - time-rules:
+        - time_rules:
             method: post
             params:
                 token: string
-                time-rules: array[] {
-                    "time-start": int,
-                    "time-end": int,
+                time_rules: array[] {
+                    "time_start": int,
+                    "time_end": int,
                     "description": string
                 }
             return:
                 status: int
         
-        - route-rules:
+        - route_rules:
             method: post
             params:
                 token: string
-                route-rules: array[] { 
+                route_rules: array[] { 
                     "network": string,
                     "mask": string,
                     "endpoint": string,
@@ -104,11 +105,11 @@ back:
             return:
                 status: int
         
-        - wireless-rules:
+        - wireless_rules:
             method: post
             params:
                 token: string
-                wireless-rules: array[] {
+                wireless_rules: array[] {
                     "ssid": string,
                     "description": string
                 }

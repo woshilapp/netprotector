@@ -4,7 +4,7 @@ const WirelessRules = {
             <div class="header">
                 <div class="logo">无线网络管理</div>
                 <div class="user-info">
-                    <span>管理员</span>
+                    <span>{{ username }}</span>
                     <button class="btn" @click="logout">退出</button>
                 </div>
             </div>
@@ -60,6 +60,7 @@ const WirelessRules = {
     `,
     data() {
         return {
+            username: localStorage.getItem('username'),
             wirelessProtect: true,
             newRule: {
                 ssid: '',
@@ -77,8 +78,8 @@ const WirelessRules = {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    token: 'asd9uh12jgs73hf',
-                    'wireless-protect': this.wirelessProtect
+                    Token: localStorage.getItem('token'),
+                    'Wireless_Protect': this.wirelessProtect
                 })
             })
             .then(response => response.json())
@@ -115,10 +116,10 @@ const WirelessRules = {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    token: 'asd9uh12jgs73hf',
-                    'wireless-rules': wirelessRules.map(rule => ({
-                        'ssid': rule.ssid,
-                        'description': rule.description
+                    Token: localStorage.getItem('token'),
+                    'Wireless_Rules': wirelessRules.map(rule => ({
+                        'SSID': rule.ssid,
+                        'Description': rule.description
                     }))
                 })
             })
@@ -137,19 +138,32 @@ const WirelessRules = {
             });
         },
         logout() {
+            fetch('/api/auth/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    Token: localStorage.getItem('token')
+                })
+            }).catch(error => {
+                console.error('Error logging out:', error);
+            });
+            localStorage.setItem('username', '');
+            localStorage.setItem('token', '');
             this.$router.push('/login');
         },
         fetchWirelessRules() {
             fetch('/api/rules')
                 .then(response => response.json())
                 .then(data => {
-                    if (data['wireless-rules']) {
-                        this.rules = data['wireless-rules'].map(rule => ({
-                            ssid: rule.ssid,
-                            description: rule.description
+                    if (data['Wireless_Rules']) {
+                        this.rules = data['Wireless_Rules'].map(rule => ({
+                            ssid: rule.SSID,
+                            description: rule.Description
                         }));
                     }
-                    this.wirelessProtect = data['wireless-protect'] || true;
+                    this.wirelessProtect = data['Wireless_Protect'] || true;
                 })
                 .catch(error => {
                     console.error('Error fetching wireless rules:', error);

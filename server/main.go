@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/woshilapp/netprotector/server/config"
 	"github.com/woshilapp/netprotector/server/handle"
 )
 
@@ -22,7 +23,7 @@ func main() {
 
 	log.Println("Hello World NetProtector Server!")
 	fmt.Println(banner)
-	fmt.Println("Auctor: woshilapp (github.com/woshilapp)")
+	fmt.Println("Auctor: woshilapp (github.com/woshilapp/netprotector)")
 
 	server := http.NewServeMux()
 
@@ -34,7 +35,25 @@ func main() {
 	// api handler
 	handle.RegsiterHandles(server)
 
-	var err error
+	// load datas
+	log.Println("Loading datas...")
+
+	err := config.ReadConfig()
+	if err != nil {
+		log.Fatalln("ReadConfig error:", err)
+		return
+	}
+	err = config.ReadRules()
+	if err != nil {
+		log.Fatalln("ReadRules error:", err)
+		return
+	}
+	err = config.ReadUsers()
+	if err != nil {
+		log.Fatalln("ReadUsers error:", err)
+		return
+	}
+
 	go func() { // Serve Thread
 		err = http.ListenAndServe(":"+port, server)
 		if err != nil {

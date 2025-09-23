@@ -23,22 +23,21 @@ const Login = {
     },
     methods: {
         login() {
-            fetch('/api/auth', {
+            fetch('/api/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    username: this.username,
-                    password: this.password
+                    Username: this.username,
+                    Password: this.password
                 })
             })
             .then(response => response.json())
             .then(data => {
-                if (data.status === 1) {
-                    localStorage.setItem('token', data.token);
-                    // 设置全局用户名属性
-                    this.$root.username = this.username;
+                if (data.Status === 1) {
+                    localStorage.setItem('token', data.Token);
+                    localStorage.setItem('username', this.username);
                     this.$router.push('/dashboard');
                 } else {
                     alert('登录失败');
