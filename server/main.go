@@ -20,9 +20,14 @@ func main() {
  |_| \_|  \___|  \__| |_|     |_|     \___/   \___|  \__|  \___|  \___|  \__|  \___/  |_|   
  `
 
-	log.Println("Hello World NetProtector Server!")
+	fmt.Println("Hello World NetProtector Server!")
 	fmt.Println(banner)
-	fmt.Println("Auctor: woshilapp (github.com/woshilapp/netprotector)", '\n')
+	fmt.Println("Auctor: woshilapp (github.com/woshilapp/netprotector)")
+	fmt.Println("Version: Rolling")
+	fmt.Println("")
+
+	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
+	log.SetPrefix("[NP]")
 
 	server := http.NewServeMux()
 

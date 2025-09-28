@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/woshilapp/netprotector/client/rule"
 	"github.com/woshilapp/netprotector/client/utils"
 )
 
@@ -11,6 +12,30 @@ func main() {
 	if len(os.Args) < 2 {
 		printHelp()
 		return
+	}
+
+	ssid, err := utils.GetSSID()
+	if err != nil {
+		fmt.Println("SSID:", err.Error())
+	} else {
+		fmt.Println("SSID", ssid)
+	}
+
+	apalist, err := utils.GetNetworkInfo()
+	if err != nil {
+		fmt.Println("E:", err)
+	} else {
+		for _, apa := range apalist {
+			fmt.Println(apa.Name, apa.Type, apa.Gateway)
+		}
+	}
+
+	rules, err := rule.GetRules()
+	if err != nil {
+		fmt.Println("RE:", err)
+	}
+	if rules != nil {
+		fmt.Println(rules.Route_Protect, rules.Ethernet_Protect, rules.Wireless_Protect)
 	}
 
 	switch os.Args[1] {

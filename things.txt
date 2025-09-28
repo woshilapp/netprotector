@@ -1,0 +1,1 @@
+add monday, tuesday, wednesday, thursday, friday, saturday, sunday feature
