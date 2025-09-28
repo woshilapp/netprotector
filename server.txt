@@ -55,6 +55,7 @@ back:
                 time_rules: array[] {
                     "time_start": int,
                     "time_end": int,
+                    "days": array[] int, // 1-7, 1: Monday, 7: Sunday
                     "description': string
                 }
                 route_rules: array[] { //add route rules
@@ -87,6 +88,7 @@ back:
                 time_rules: array[] {
                     "time_start": int,
                     "time_end": int,
+                    "days": array[] int, // 1-7, 1: Monday, 7: Sunday
                     "description": string
                 }
             return:
