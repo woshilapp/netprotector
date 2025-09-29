@@ -6,6 +6,7 @@
         {
             "Time_Start": "08:00",
             "Time_End": "18:00",
+            "Days": [1, 2, 3, 4, 5],
             "Description": "Office hours"
         }
     ],

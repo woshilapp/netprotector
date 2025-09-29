@@ -2,17 +2,16 @@ package main
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/woshilapp/netprotector/client/rule"
 	"github.com/woshilapp/netprotector/client/utils"
 )
 
 func main() {
-	if len(os.Args) < 2 {
-		printHelp()
-		return
-	}
+	// if len(os.Args) < 2 {
+	// 	printHelp()
+	// 	return
+	// }
 
 	ssid, err := utils.GetSSID()
 	if err != nil {
@@ -36,26 +35,32 @@ func main() {
 	}
 	if rules != nil {
 		fmt.Println(rules.Route_Protect, rules.Ethernet_Protect, rules.Wireless_Protect)
-	}
-
-	switch os.Args[1] {
-	case "list":
-		utils.ListRoutes()
-	case "add":
-		if len(os.Args) < 6 {
-			fmt.Println("Usage: route_manager add <destination> <mask> <gateway> <interface> <metric>")
-			return
+		for _, sb := range rules.Time_Rules {
+			for _, dsb := range sb.Days {
+				fmt.Println(sb.Time_Start, sb.Time_End, dsb, sb.Description)
+			}
 		}
-		utils.AddRoute(os.Args[2], os.Args[3], os.Args[4], os.Args[5], os.Args[6])
-	case "delete":
-		if len(os.Args) < 3 {
-			fmt.Println("Usage: route_manager delete <destination>")
-			return
-		}
-		utils.DeleteRoute(os.Args[2])
-	default:
-		printHelp()
 	}
+	/*
+		switch os.Args[1] {
+		case "list":
+			utils.ListRoutes()
+		case "add":
+			if len(os.Args) < 6 {
+				fmt.Println("Usage: route_manager add <destination> <mask> <gateway> <interface> <metric>")
+				return
+			}
+			utils.AddRoute(os.Args[2], os.Args[3], os.Args[4], os.Args[5], os.Args[6])
+		case "delete":
+			if len(os.Args) < 3 {
+				fmt.Println("Usage: route_manager delete <destination>")
+				return
+			}
+			utils.DeleteRoute(os.Args[2])
+		default:
+			printHelp()
+		}
+	*/
 }
 
 func printHelp() {

@@ -3,6 +3,7 @@ package global
 type TimeRule struct {
 	Time_Start  string
 	Time_End    string
+	Days        []int
 	Description string
 }
 

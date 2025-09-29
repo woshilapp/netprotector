@@ -6,12 +6,30 @@
         {
             "Time_Start": "08:00",
             "Time_End": "18:00",
+            "Days": [
+                1
+            ],
             "Description": "Office hours"
         },
         {
             "Time_Start": "01:22",
             "Time_End": "11:22",
+            "Days": [
+                3,
+                4
+            ],
             "Description": "1"
+        },
+        {
+            "Time_Start": "03:34",
+            "Time_End": "05:06",
+            "Days": [
+                2,
+                4,
+                5,
+                7
+            ],
+            "Description": "2"
         }
     ],
     "Route_Rules": [
